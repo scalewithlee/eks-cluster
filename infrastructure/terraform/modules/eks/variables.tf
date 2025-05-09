@@ -98,3 +98,13 @@ variable "node_key_name" {
   type        = string
   default     = null
 }
+
+variable "admin_role_arn" {
+  description = "The IAM Role ARN for the cluster admin"
+  type        = string
+}
+
+variable "developer_role_arn" {
+  description = "The IAM Role ARN for the cluster developer"
+  type        = string
+}

@@ -37,3 +37,13 @@ output "availability_zones" {
   description = "List of AZs used"
   value       = var.availability_zones
 }
+
+output "admin_role_arn" {
+  description = "The IAM Role ARN for the cluster admin role"
+  value       = aws_iam_role.admin_role.arn
+}
+
+output "developer_role_arn" {
+  description = "The IAM Role ARN for the cluster developer role"
+  value       = aws_iam_role.developer_role.arn
+}

@@ -2,6 +2,9 @@ provider "aws" {
   region = var.region
 }
 
+# Get access to the effective AWS account and IAM context that terraform uses
+data "aws_caller_identity" "current" {}
+
 locals {
   name = var.cluster_name
   tags = {
@@ -118,4 +121,53 @@ resource "aws_security_group_rule" "cluster_ingress_node" {
   to_port                  = 0
   protocol                 = "-1"
   source_security_group_id = aws_security_group.node_sg.id
+}
+
+# IAM Roles for Kubernetes access
+resource "aws_iam_role" "admin_role" {
+  name = "${local.name}-amin-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+      }
+    ]
+  })
+
+  tags = local.tags
+}
+
+resource "aws_iam_role_policy_attachment" "admin_eks_access" {
+  role       = aws_iam_role.admin_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+
+resource "aws_iam_role" "developer_role" {
+  name = "${local.name}-amin-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+      }
+    ]
+  })
+
+  tags = local.tags
+}
+
+resource "aws_iam_role_policy_attachment" "developer_eks_access" {
+  role       = aws_iam_role.developer_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }

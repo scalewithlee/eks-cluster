@@ -12,7 +12,7 @@ data "aws_caller_identity" "current" {}
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "20.36.0"
+  version = "~> 20.0"
 
   cluster_name    = local.name
   cluster_version = var.cluster_version
@@ -23,7 +23,21 @@ module "eks" {
   cluster_endpoint_public_access  = var.cluster_endpoint_public_access
   cluster_endpoint_private_access = var.cluster_endpoint_private_access
 
+  # Use access entries for authentication
   enable_cluster_creator_admin_permissions = true
+
+  access_entries = {
+    admin-role = {
+      kubernetes_groups = ["system:masters"]
+      principal_arn     = var.admin_role_arn
+      type              = "STANDARD"
+    }
+    developer-role = {
+      kubernetes_groups = ["developers"]
+      principal_arn     = var.developer_role_arn
+      type              = "STANDARD"
+    }
+  }
 
   cluster_security_group_id = var.cluster_security_group_id
 
