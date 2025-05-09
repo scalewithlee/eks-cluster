@@ -23,14 +23,6 @@ terraform {
       version = "~> 4.0"
     }
   }
-
-  backend "s3" {
-    bucket       = var.tf_state_bucket
-    key          = "dev/terraform.tfstate"
-    region       = var.region
-    encrypt      = true
-    use_lockfile = true
-  }
 }
 
 module "foundation" {
