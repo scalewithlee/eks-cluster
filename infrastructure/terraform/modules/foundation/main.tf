@@ -31,9 +31,9 @@ module "vpc" {
     "kubernetes.io/role/elb"              = 1
   }
 
-  enable_nat_gateway     = true
-  single_nat_gateway     = var.single_nat_gateway
-  one_nat_gateway_per_az = !var.single_nat_gateway
+  enable_nat_gateway     = true # Enable outbound traffic from private subnets
+  single_nat_gateway     = true # Use the same NAT gateway for all private subnets
+  one_nat_gateway_per_az = false
   enable_vpn_gateway     = false
   enable_dns_hostnames   = true
   enable_dns_support     = true
