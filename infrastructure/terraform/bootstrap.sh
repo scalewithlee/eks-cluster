@@ -14,6 +14,10 @@ usage() {
     exit 1
 }
 
+if [ $# -eq 0 ]; then
+    usage
+fi
+
 # Default configuration
 TF_STATE_BUCKET="my-tf-state-bucket"
 AWS_REGION="us-west-2"
@@ -66,12 +70,14 @@ if ! aws s3api head-bucket --bucket "$TF_STATE_BUCKET" 2>/dev/null; then
     if [ "$AWS_REGION" = "us-east-1" ]; then # Caveat for us-east-1
         aws s3api create-bucket \
             --bucket "$TF_STATE_BUCKET" \
-            --region "$AWS_REGION"
+            --region "$AWS_REGION" \
+            --no-cli-pager
     else
         aws s3api create-bucket \
             --bucket "$TF_STATE_BUCKET" \
             --region "$AWS_REGION" \
-            --create-bucket-configuration LocationConstraint="$AWS_REGION"
+            --create-bucket-configuration LocationConstraint="$AWS_REGION" \
+            --no-cli-pager
     fi
 
     # Enable versioning
