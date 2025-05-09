@@ -47,9 +47,3 @@ output "access_entries" {
   description = "Map of access entries created for the cluster"
   value       = module.eks.access_entries
 }
-
-output "kubeconfig" {
-  description = "kubectl configuration to connect to the cluster"
-  value       = module.eks.kubeconfig
-  sensitive   = true
-}
