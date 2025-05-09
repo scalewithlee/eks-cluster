@@ -64,11 +64,6 @@ variable "cluster_endpoint_private_access" {
   default     = false
 }
 
-variable "subnet_ids" {
-  description = "List of subnet IDs for the EKS cluster"
-  type        = list(string)
-}
-
 variable "node_group_min_size" {
   description = "The minimum number of nodes in the cluster"
   type        = number
