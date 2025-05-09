@@ -96,7 +96,7 @@ variable "node_instance_types" {
 variable "node_key_name" {
   description = "The name of an EC2 SSH key pair to access the nodes"
   type        = string
-  default     = null
+  default     = null # Disable direct SSH access
 }
 
 variable "admin_role_arn" {
