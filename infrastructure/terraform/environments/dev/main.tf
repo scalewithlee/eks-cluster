@@ -38,7 +38,7 @@ module "foundation" {
 
   region       = var.region
   cluster_name = var.cluster_name
-  environment  = var.environment
+  environment  = "dev"
   project_name = var.project_name
 
   vpc_cidr           = var.vpc_cidr
@@ -56,7 +56,7 @@ module "eks" {
   region          = var.region
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
-  environment     = var.environment
+  environment     = "dev"
   project_name    = var.project_name
 
   vpc_id                    = module.foundation.vpc_id
