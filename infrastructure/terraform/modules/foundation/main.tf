@@ -171,3 +171,64 @@ resource "aws_iam_role_policy_attachment" "developer_eks_access" {
   role       = aws_iam_role.developer_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
+
+# ECR repository for container images
+resource "aws_ecr_repository" "app_images" {
+  name                 = var.project_name
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  encryption_configuration {
+    encryption_type = "AES256"
+  }
+
+  tags = local.tags
+}
+
+# ECR policy to allow EKS nodes to pull the images
+resource "aws_ecr_repository_policy" "app_images_policy" {
+  repository = aws_ecr_repository.app_images.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowPull"
+        Effect = "Allow"
+        Principal = {
+          Service = "eks.amazonaws.com"
+        }
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability"
+        ]
+      }
+    ]
+  })
+}
+
+# ECR lifecycle policy
+resource "aws_ecr_lifecycle_policy" "app_images_lifecycle" {
+  repository = aws_ecr_repository.app_images.name
+
+  policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1
+        description  = "Keep last 10 images"
+        selection = {
+          tagStatus   = "any"
+          countType   = "imageCountMoreThan"
+          countNumber = 10
+        }
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+}

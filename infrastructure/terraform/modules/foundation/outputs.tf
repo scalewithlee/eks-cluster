@@ -47,3 +47,8 @@ output "developer_role_arn" {
   description = "The IAM Role ARN for the cluster developer role"
   value       = aws_iam_role.developer_role.arn
 }
+
+output "ecr_repository_url" {
+  description = "The URL of the ECR repository for app images"
+  value       = aws_ecr_repository.app_images.repository_url
+}
