@@ -62,3 +62,8 @@ output "developer_role_arn" {
   description = "ARN of the developer role for EKS access"
   value       = module.foundation.developer_role_arn
 }
+
+output "ecr_repository_url" {
+  description = "The URL of the ECR repository"
+  value       = module.foundation.ecr_repository_url
+}
