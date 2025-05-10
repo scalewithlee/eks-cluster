@@ -15,7 +15,7 @@ output "cluster_security_group_id" {
 
 output "cluster_iam_role_name" {
   description = "IAM role name of the EKS cluster"
-  value       = module.eks.cluster_iam_role_name
+  value       = module.eks.cluster_iam_role
 }
 
 output "cluster_iam_role_arn" {
