@@ -1,6 +1,6 @@
-output "cluster_id" {
-  description = "The ID of the EKS cluster"
-  value       = module.eks.cluster_id
+output "cluster_name" {
+  description = "The name of the EKS cluster"
+  value       = module.eks.cluster_name
 }
 
 output "cluster_endpoint" {
@@ -25,7 +25,7 @@ output "cluster_iam_role_arn" {
 
 output "kubeconfig_command" {
   description = "Command to configure kubectl to connect to the cluster"
-  value       = "aws eks --region ${var.region} update-kubeconfig --name ${module.eks.cluster_id}"
+  value       = "aws eks --region ${var.region} update-kubeconfig --name ${module.eks.cluster_name}"
 }
 
 output "access_entries" {

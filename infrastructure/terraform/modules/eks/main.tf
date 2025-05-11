@@ -28,7 +28,7 @@ module "eks" {
 
   access_entries = {
     admin-role = {
-      kubernetes_groups = ["system:masters"]
+      kubernetes_groups = ["masters"]
       principal_arn     = var.admin_role_arn
       type              = "STANDARD"
     }

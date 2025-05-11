@@ -125,7 +125,7 @@ resource "aws_security_group_rule" "cluster_ingress_node" {
 
 # IAM Roles for Kubernetes access
 resource "aws_iam_role" "admin_role" {
-  name = "${local.name}-amin-role"
+  name = "${local.name}-admin-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -149,7 +149,7 @@ resource "aws_iam_role_policy_attachment" "admin_eks_access" {
 }
 
 resource "aws_iam_role" "developer_role" {
-  name = "${local.name}-amin-role"
+  name = "${local.name}-developer-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
