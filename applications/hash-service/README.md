@@ -17,11 +17,38 @@ make build
 make run
 ```
 
-## Testing
+## Endpoints
+Endpoint | Method | Example `curl`
+--- | --- | ---
+`/health` | GET | `curl localhost:8080/health`
+`/get` | POST | `curl -XPOST localhost:8080/get -d '{"hash": "123456"}'`
+`/store` | POST | `curl -XPOST localhost:8080/store -d '{"message":"hello"}'`
+
+For example,
+```bash
+$ curl -XPOST localhost:8080/get -d '{"hash":"123456"}'
+{"message":"","found":false}
+
+$ curl -XPOST localhost:8080/store -d '{"message":"hello"}'
+{"hash":"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"}
+
+$ curl -XPOST localhost:8080/get -d '{"hash":"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"}'
+{"message":"hello","found":true}
+```
+
+## Push Image to ECR
+The following command will push the hash-service image to ECR. It expects the following environment variables:
+- `AWS_ACCOUNT_ID`
+- `AWS_REGION`
+- `PROJECT_NAME` (should match the terraform `project_name` variable)
 
 ```bash
-make test
+AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID AWS_REGION=$AWS_REGION PROJECT_NAME=$PROJECT_NAME make push
 ```
 
 ## Storage
 Messages are stored in-memory and will not be persisted.
+
+## TODOs
+- Build CI/CD pipeline for building and pushing the image
+- Add git commit SHAs as image tags
