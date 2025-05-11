@@ -58,7 +58,7 @@ module "eks" {
 
   eks_managed_node_groups = {
     default = {
-      name                       = "${local.name}-managed-node-group"
+      name                       = "${local.name}"
       instance_types             = var.node_instance_types
       min_size                   = var.node_group_min_size
       max_size                   = var.node_group_max_size
