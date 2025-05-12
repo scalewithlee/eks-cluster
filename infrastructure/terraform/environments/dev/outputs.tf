@@ -63,7 +63,7 @@ output "developer_role_arn" {
   value       = module.foundation.developer_role_arn
 }
 
-output "ecr_repository_url" {
-  description = "The URL of the ECR repository"
-  value       = module.foundation.ecr_repository_url
+output "ecr_repository_urls" {
+  description = "Map of application names to their ECR repository URLs"
+  value       = module.foundation.ecr_repository_urls
 }

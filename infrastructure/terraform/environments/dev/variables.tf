@@ -85,3 +85,9 @@ variable "node_key_name" {
   type        = string
   default     = null # Disable direct SSH access
 }
+
+variable "applications" {
+  description = "A list of applications that will be pushed to ECR"
+  type        = list(string)
+  default     = ["hash-service"]
+}
