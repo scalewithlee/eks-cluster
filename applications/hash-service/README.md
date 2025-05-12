@@ -48,7 +48,3 @@ AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID AWS_REGION=$AWS_REGION PROJECT_NAME=$PROJECT_NAME
 
 ## Storage
 Messages are stored in-memory and will not be persisted.
-
-## TODOs
-- Build CI/CD pipeline for building and pushing the image
-- Add git commit SHAs as image tags
