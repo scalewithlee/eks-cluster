@@ -48,7 +48,7 @@ output "developer_role_arn" {
   value       = aws_iam_role.developer_role.arn
 }
 
-output "ecr_repository_url" {
-  description = "The URL of the ECR repository for app images"
-  value       = aws_ecr_repository.app_images.repository_url
+output "ecr_repository_urls" {
+  description = "Map of application names to their ECR repository URLs"
+  value       = { for app in var.applications : app => aws_ecr_repository.app_images[app].repository_url }
 }

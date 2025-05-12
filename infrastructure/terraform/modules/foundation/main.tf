@@ -174,7 +174,8 @@ resource "aws_iam_role_policy_attachment" "developer_eks_access" {
 
 # ECR repository for container images
 resource "aws_ecr_repository" "app_images" {
-  name                 = var.project_name
+  for_each             = toset(var.applications)
+  name                 = each.key
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -185,12 +186,18 @@ resource "aws_ecr_repository" "app_images" {
     encryption_type = "AES256"
   }
 
-  tags = local.tags
+  tags = merge(
+    local.tags,
+    {
+      Application = each.key
+    }
+  )
 }
 
 # ECR policy to allow EKS nodes to pull the images
 resource "aws_ecr_repository_policy" "app_images_policy" {
-  repository = aws_ecr_repository.app_images.name
+  for_each   = toset(var.applications)
+  repository = aws_ecr_repository.app_images[each.key].name
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -213,7 +220,8 @@ resource "aws_ecr_repository_policy" "app_images_policy" {
 
 # ECR lifecycle policy
 resource "aws_ecr_lifecycle_policy" "app_images_lifecycle" {
-  repository = aws_ecr_repository.app_images.name
+  for_each   = toset(var.applications)
+  repository = aws_ecr_repository.app_images[each.key].name
 
   policy = jsonencode({
     rules = [
