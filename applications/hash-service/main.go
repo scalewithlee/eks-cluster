@@ -70,10 +70,10 @@ type GetMessageResponse struct {
 }
 
 func main() {
-	// Get port from environment, or use 8080
+	// Get port from environment, or use 80
 	port := os.Getenv("HASH_SERVICE_PORT")
 	if port == "" {
-		port = "8080"
+		port = "80"
 	}
 
 	// Initialize the message store

@@ -13,26 +13,26 @@ make build
 ```
 
 ```bash
-# Run the service container (uses port 8080 by default)
+# Run the service container (uses port 80 by default)
 make run
 ```
 
 ## Endpoints
 Endpoint | Method | Example `curl`
 --- | --- | ---
-`/health` | GET | `curl localhost:8080/health`
-`/get` | POST | `curl -XPOST localhost:8080/get -d '{"hash": "123456"}'`
-`/store` | POST | `curl -XPOST localhost:8080/store -d '{"message":"hello"}'`
+`/health` | GET | `curl localhost/health`
+`/get` | POST | `curl -XPOST localhost/get -d '{"hash": "123456"}'`
+`/store` | POST | `curl -XPOST localhost/store -d '{"message":"hello"}'`
 
 For example,
 ```bash
-$ curl -XPOST localhost:8080/get -d '{"hash":"123456"}'
+$ curl -XPOST localhost/get -d '{"hash":"123456"}'
 {"message":"","found":false}
 
-$ curl -XPOST localhost:8080/store -d '{"message":"hello"}'
+$ curl -XPOST localhost/store -d '{"message":"hello"}'
 {"hash":"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"}
 
-$ curl -XPOST localhost:8080/get -d '{"hash":"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"}'
+$ curl -XPOST localhost/get -d '{"hash":"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"}'
 {"message":"hello","found":true}
 ```
 
